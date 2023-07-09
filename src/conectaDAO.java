@@ -2,6 +2,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import java.util.Properties;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -18,13 +19,17 @@ public class conectaDAO {
         Connection conn = null;
         
         try {
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/uc11", "root", "administrador");
-            return conn;
-        } catch (Exception e) {
-            System.out.println("Erro ao conectar: " + e.getMessage());
-            return null;
+            Properties properties = new Properties();
+            properties.setProperty("user", "root");
+            properties.setProperty("password", "administrador");
+            properties.setProperty("useSSL", "false");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/uc11", properties);
+        } catch (SQLException erro) {
+            JOptionPane.showMessageDialog(null, "Erro ConectaDAO" + erro.getMessage());
         }
+        return conn;
     }
+    
         public void disconnectDB() {
         try {
             Connection conn = null;
